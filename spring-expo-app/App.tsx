@@ -4,8 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
+import { View, StyleSheet } from 'react-native';
 
-// Import our screens from the new location
+// Import our screens
 import HomeScreen from './src/screens/HomeScreen';
 import ExploreScreen from './src/screens/ExploreScreen';
 import CreateScreen from './src/screens/CreateScreen';
@@ -16,7 +17,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -25,9 +26,9 @@ export default function App() {
               let iconName: keyof typeof Ionicons.glyphMap;
 
               if (route.name === 'Home') {
-                iconName = focused ? 'home' : 'home-outline';
+                iconName = focused ? 'bookmark' : 'bookmark-outline';
               } else if (route.name === 'Explore') {
-                iconName = focused ? 'search' : 'search-outline';
+                iconName = focused ? 'albums' : 'albums-outline';
               } else if (route.name === 'Create') {
                 iconName = focused ? 'add-circle' : 'add-circle-outline';
               } else if (route.name === 'Profile') {
@@ -36,21 +37,57 @@ export default function App() {
                 iconName = 'help-circle-outline';
               }
 
-              return <Ionicons name={iconName} size={size} color={color} />;
+              return <Ionicons name={iconName} size={24} color={color} />;
             },
-            tabBarActiveTintColor: '#4f46e5',
+            tabBarActiveTintColor: '#5A6B47',
             tabBarInactiveTintColor: '#c4c4c4',
             tabBarStyle: {
               borderTopWidth: 1,
               borderTopColor: '#e1e1e1',
               backgroundColor: 'white',
+              height: 60,
+              paddingTop: 8,
+              paddingBottom: 8,
             },
+            tabBarLabel: () => null, // Hide labels
           })}
         >
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Explore" component={ExploreScreen} />
-          <Tab.Screen name="Create" component={CreateScreen} />
-          <Tab.Screen name="Profile" component={ProfileScreen} />
+          <Tab.Screen 
+            name="Home" 
+            component={HomeScreen} 
+            options={{
+              tabBarItemStyle: {
+                alignItems: 'center',
+              },
+            }}
+          />
+          <Tab.Screen 
+            name="Explore" 
+            component={ExploreScreen}
+            options={{
+              tabBarItemStyle: {
+                alignItems: 'center',
+              },
+            }}
+          />
+          <Tab.Screen 
+            name="Create" 
+            component={CreateScreen} 
+            options={{
+              tabBarItemStyle: {
+                alignItems: 'center',
+              },
+            }}
+          />
+          <Tab.Screen 
+            name="Profile" 
+            component={ProfileScreen}
+            options={{
+              tabBarItemStyle: {
+                alignItems: 'center',
+              },
+            }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
