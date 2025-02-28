@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Dimensions,
   Alert,
+  Image
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
@@ -114,6 +115,9 @@ export default function ExploreScreen() {
   };
 
   const renderCard = (activity: Activity) => {
+    // Calculate if the title is long (more than 25 characters)
+    const isLongTitle = activity.title.length > 25;
+    
     return (
       <View style={styles.card}>
         <ImageBackground
@@ -139,11 +143,14 @@ export default function ExploreScreen() {
 
             {/* Content with no white background */}
             <View style={styles.content}>
-              {/* Title with text shadow for better visibility */}
-              <Text style={styles.title}>{activity.title}</Text>
-
               {/* Host info and details with text shadow */}
               <View style={styles.infoContainer}>
+                {/* Title moved down here, above host info */}
+                <Text style={[
+                  styles.title, 
+                  isLongTitle && styles.longTitle
+                ]}>{activity.title}</Text>
+                
                 <View style={styles.hostRow}>
                   <Text style={styles.hostText}>Hosted By {activity.host}</Text>
                   <View style={styles.hostAvatar}>
@@ -185,10 +192,18 @@ export default function ExploreScreen() {
       <SafeAreaView>
         <View style={styles.topBar}>
           <TouchableOpacity>
-            <Ionicons name="menu-outline" size={24} color="#333" />
+            <Ionicons 
+              name="menu-outline" 
+              size={26} 
+              color="#333" 
+            />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Ionicons name="person-circle-outline" size={24} color="#333" />
+            <Ionicons 
+              name="person" 
+              size={26} 
+              color="#333" 
+            />
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -303,7 +318,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end', // Changed from space-between to flex-end to push content to bottom
     padding: 20,
   },
   progressContainer: {
@@ -332,16 +347,20 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   title: {
-    fontSize: 40,
+    fontSize: 32, // Slightly smaller default size
     fontWeight: 'bold',
     color: 'white',
-    marginBottom: 20,
+    marginBottom: 16,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 5,
   },
+  longTitle: {
+    fontSize: 28, // Even smaller for long titles
+    marginBottom: 12, // Less margin for long titles to push up less
+  },
   infoContainer: {
-    marginTop: 'auto',
+    // Removed marginTop: 'auto' to position based on flex-end in parent
   },
   hostRow: {
     flexDirection: 'row',
