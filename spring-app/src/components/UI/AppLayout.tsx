@@ -2,13 +2,7 @@ import React, { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUserStore } from '@/store/useUserStore';
-import { 
-  HomeIcon, 
-  PlusCircleIcon, 
-  UserIcon, 
-  AdjustmentsHorizontalIcon,
-  BookmarkIcon
-} from '@heroicons/react/24/outline';
+import Image from 'next/image';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -37,7 +31,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               href="/activities/filter" 
               className="rounded-full p-2 text-gray-600 hover:bg-gray-100"
             >
-              <AdjustmentsHorizontalIcon className="h-6 w-6" />
+              <Image
+                src="/MenuAssets/slider.horizontal.3.svg"
+                alt="Filter"
+                width={24}
+                height={24}
+                className={pathname === '/activities/filter' ? 'text-indigo-600' : 'text-gray-500'}
+              />
             </Link>
             
             {isAuthenticated ? (
@@ -53,7 +53,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   />
                 ) : (
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                    <UserIcon className="h-5 w-5" />
+                    <Image
+                      src="/MenuAssets/person.fill.svg"
+                      alt="User"
+                      width={20}
+                      height={20}
+                    />
                   </div>
                 )}
               </Link>
@@ -78,7 +83,16 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               pathname === '/activities' ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <HomeIcon className="h-6 w-6" />
+            <Image 
+              src={pathname === '/activities' ? '/MenuAssets/rectangle.stack.fill.svg' : '/MenuAssets/rectangle.stack.svg'} 
+              alt="Explore"
+              width={24}
+              height={24}
+              className="h-6 w-6"
+              style={{ 
+                filter: pathname === '/activities' ? 'invert(36%) sepia(46%) saturate(5194%) hue-rotate(230deg) brightness(88%) contrast(92%)' : 'none' 
+              }}
+            />
             <span className="mt-1 text-xs">Explore</span>
           </Link>
           
@@ -88,7 +102,16 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               pathname === '/activities/saved' ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <BookmarkIcon className="h-6 w-6" />
+            <Image 
+              src={pathname === '/activities/saved' ? '/MenuAssets/bookmark.fill.svg' : '/MenuAssets/bookmark.svg'} 
+              alt="Saved"
+              width={24}
+              height={24}
+              className="h-6 w-6"
+              style={{ 
+                filter: pathname === '/activities/saved' ? 'invert(36%) sepia(46%) saturate(5194%) hue-rotate(230deg) brightness(88%) contrast(92%)' : 'none' 
+              }}
+            />
             <span className="mt-1 text-xs">Saved</span>
           </Link>
           
@@ -98,7 +121,16 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               pathname === '/activities/new' ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <PlusCircleIcon className="h-6 w-6" />
+            <Image 
+              src={pathname === '/activities/new' ? '/MenuAssets/plus.square.fill.on.square.fill.svg' : '/MenuAssets/plus.square.on.square.svg'} 
+              alt="Create"
+              width={24}
+              height={24}
+              className="h-6 w-6"
+              style={{ 
+                filter: pathname === '/activities/new' ? 'invert(36%) sepia(46%) saturate(5194%) hue-rotate(230deg) brightness(88%) contrast(92%)' : 'none' 
+              }}
+            />
             <span className="mt-1 text-xs">Create</span>
           </Link>
           
@@ -108,7 +140,16 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               pathname === '/profile' ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <UserIcon className="h-6 w-6" />
+            <Image 
+              src={pathname === '/profile' ? '/MenuAssets/person.fill.svg' : '/MenuAssets/person.fill.svg'} 
+              alt="Profile"
+              width={24}
+              height={24}
+              className="h-6 w-6"
+              style={{ 
+                filter: pathname === '/profile' ? 'invert(36%) sepia(46%) saturate(5194%) hue-rotate(230deg) brightness(88%) contrast(92%)' : 'none' 
+              }}
+            />
             <span className="mt-1 text-xs">Profile</span>
           </Link>
         </div>

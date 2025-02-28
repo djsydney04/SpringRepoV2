@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { UserIcon, CalendarIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import { Activity } from '@/lib/supabaseClient';
 import { formatDate } from '@/lib/utils';
 
@@ -62,17 +61,35 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
       
       <div className="p-4 space-y-3">
         <div className="flex items-center text-sm text-gray-600">
-          <CalendarIcon className="h-5 w-5 mr-2" />
+          <Image
+            src="/MenuAssets/slider.horizontal.3.svg"
+            alt="Calendar"
+            width={20}
+            height={20}
+            className="mr-2 h-5 w-5"
+          />
           <span>{formatDate(activity.start_time)}</span>
         </div>
         
         <div className="flex items-center text-sm text-gray-600">
-          <MapPinIcon className="h-5 w-5 mr-2" />
+          <Image
+            src="/MenuAssets/rectangle.stack.svg"
+            alt="Location"
+            width={20}
+            height={20}
+            className="mr-2 h-5 w-5"
+          />
           <span>{activity.location}</span>
         </div>
         
         <div className="flex items-center text-sm text-gray-600">
-          <UserIcon className="h-5 w-5 mr-2" />
+          <Image
+            src="/MenuAssets/person.fill.svg"
+            alt="Host"
+            width={20}
+            height={20}
+            className="mr-2 h-5 w-5"
+          />
           <span>Hosted by {activity.host_id}</span>
         </div>
         
