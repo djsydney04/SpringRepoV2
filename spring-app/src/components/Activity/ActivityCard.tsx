@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Activity } from '@/lib/supabaseClient';
@@ -17,6 +17,22 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
   onSwipeRight,
   onSwipeUp,
 }) => {
+  // State to track the current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Prepare images array from either image_urls or single image_url
+  const [images, setImages] = useState<string[]>([]);
+  
+  useEffect(() => {
+    if (activity.image_urls && activity.image_urls.length > 0) {
+      setImages(activity.image_urls);
+    } else if (activity.image_url) {
+      setImages([activity.image_url]);
+    } else {
+      setImages([]);
+    }
+  }, [activity]);
+
   const handleDragEnd = (
     event: MouseEvent | TouchEvent | PointerEvent,
     info: { offset: { x: number; y: number } }
@@ -31,6 +47,24 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
       onSwipeUp();
     }
   };
+  
+  // Function to handle tapping on the left side of the image
+  const handleLeftTap = () => {
+    if (images.length <= 1) return;
+    
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+  
+  // Function to handle tapping on the right side of the image
+  const handleRightTap = () => {
+    if (images.length <= 1) return;
+    
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
 
   return (
     <motion.div
@@ -42,13 +76,41 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
       whileTap={{ scale: 0.98 }}
     >
       <div className="h-2/3 relative">
-        {activity.image_url ? (
-          <Image
-            src={activity.image_url}
-            alt={activity.title}
-            fill
-            className="object-cover"
-          />
+        {images.length > 0 ? (
+          <>
+            <Image
+              src={images[currentImageIndex]}
+              alt={activity.title}
+              fill
+              className="object-cover"
+            />
+            
+            {/* Left tap area */}
+            <div 
+              className="absolute top-0 left-0 z-10 h-full w-1/4 cursor-pointer"
+              onClick={handleLeftTap}
+            />
+            
+            {/* Right tap area */}
+            <div 
+              className="absolute top-0 right-0 z-10 h-full w-1/4 cursor-pointer"
+              onClick={handleRightTap}
+            />
+            
+            {/* Image indicator pills - only show if there are multiple images */}
+            {images.length > 1 && (
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-2">
+                {images.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-2 w-2 rounded-full ${
+                      index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
             <span className="text-2xl font-bold text-white">{activity.title}</span>

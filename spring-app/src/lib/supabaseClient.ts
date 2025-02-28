@@ -25,6 +25,7 @@ export type Activity = {
   start_time: string;
   location: string;
   image_url?: string;
+  image_urls?: string[];
   created_at: string;
 };
 

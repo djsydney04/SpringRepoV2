@@ -5,6 +5,51 @@ import { Activity, supabase } from '@/lib/supabaseClient';
 import { ActivityCard } from './ActivityCard';
 import { useActivityStore } from '@/store/useActivityStore';
 
+// Sample activities with multiple images
+const sampleActivities: Activity[] = [
+  {
+    id: 'sample-1',
+    title: 'Weekend Hiking Trip',
+    description: 'A fun hiking trip to explore local trails and enjoy nature together.',
+    host_id: 'sample-host-1',
+    start_time: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    location: 'Mountain View Trail',
+    image_url: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    image_urls: [
+      'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+      'https://images.unsplash.com/photo-1527842891421-42eec6e703ea?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+      'https://images.unsplash.com/photo-1475483768296-6163e08872a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+      'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    ],
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'sample-2',
+    title: 'Board Game Night',
+    description: 'Join us for a fun evening of board games and snacks. All levels welcome!',
+    host_id: 'sample-host-2',
+    start_time: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    location: 'Community Center',
+    image_url: 'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'sample-3',
+    title: 'Photography Workshop',
+    description: 'Learn the basics of photography and explore creative techniques in this interactive workshop.',
+    host_id: 'sample-host-3',
+    start_time: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    location: 'Arts District',
+    image_url: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    image_urls: [
+      'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+      'https://images.unsplash.com/photo-1504805572947-34fad45aed93?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+      'https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    ],
+    created_at: new Date().toISOString(),
+  }
+];
+
 export const ActivityFeed: React.FC = () => {
   const router = useRouter();
   const { activities, setActivities, setCurrentActivity, isLoading, setLoading } = useActivityStore();
@@ -16,6 +61,11 @@ export const ActivityFeed: React.FC = () => {
       setLoading(true);
       
       try {
+        // Use sample activities directly for testing
+        setActivities(sampleActivities);
+        
+        // Uncomment this to fetch real activities from Supabase
+        /*
         const { data, error } = await supabase
           .from('activities')
           .select('*')
@@ -28,6 +78,7 @@ export const ActivityFeed: React.FC = () => {
         if (data) {
           setActivities(data as Activity[]);
         }
+        */
       } catch (error) {
         console.error('Error fetching activities:', error);
       } finally {
